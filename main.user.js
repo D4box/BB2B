@@ -9,48 +9,40 @@
 
 (function(){
     'use strict';
+    console.log('网页加载中..');
 })();
 window.onload = function(){
     setTimeout(function(){
         if (location.href == 'https://www.bilibili.com/v/game/match/competition'){
             document.getElementsByClassName('time-contain')[0].style.cssText = 'background-color:white'
-            var sshi = $(".competition-list");
+            var sshi = $(".competition-list")[0].children;
             var sshititle = $(".part-title")
-            for (var i = 0; i < sshi[0].children.length; i++) {
-                sshi[0].children[i].style.backgroundColor = '#fff';
+            for (var i = 0; i < sshi.length; i++) {
+                sshi[i].style.backgroundColor = '#fff'; // 修复bilibili Evolved和其他类似插件的夜间模式对竞猜页面不适配的问题
                 sshititle[i].children[0].style.cssText = 'color: black !important;';
-    //            sshi[0].children[i].getElementsByClassName('competition-option-input-group')[0].children[0].value = '10';
-    //            sshi[0].children[i].getElementsByClassName('competition-option-input-group')[1].children[0].value = '10';
-                team1 = sshi[0].children[i].getElementsByClassName('how-pay')[0].innerText.substring(5,9)
-                team2 = sshi[0].children[i].getElementsByClassName('how-pay')[1].innerText.substring(5,9)
-                if (sshi[0].children[i].getElementsByClassName('competition-option-content clear-fix')[0].className != 'competition-option-content clear-fix competition-option-in' && sshi[0].children[i]. getElementsByClassName('competition-option-content clear-fix')[1].className != 'competition-option-content clear-fix competition-option-in'){yt = 0}
-                else{yt = 1}
-                if (parseInt(team1) - parseInt(team2) >= 0.5){
-                    t1c = "font-family:'xx-bin';font-size:27px;color:#222222;letter-spacing:0;line-height:24px;height:24px;width:50px;text-align:center"
-                    t2c = "font-family:'xx-bin';font-size:27px;color:#f25d8e;letter-spacing:0;line-height:24px;height:24px;width:50px;text-align:center"
-                    if (yt == 0){sshi[0].children[i].getElementsByClassName('competition-option-content clear-fix')[1].style.cssText = 'border: 1px solid #fb7299;border-left-width: 4px'}
+                for (var n=0;n<2;n++) {
+                    sshi[i].getElementsByClassName("competition-option")[n].addEventListener("click",function(){
+                        var dom = this.getElementsByClassName('competition-option-input-group')[0].children[0]
+                        var evt = new InputEvent('input', {
+                            inputType: 'insertText',
+                            data: '10',
+                            dataTransfer: null,
+                            isComposing: false
+                        });// 模拟输入
+                        dom.value = '10';
+                        dom.dispatchEvent(evt);
+                        this.getElementsByClassName('checkbox-bwxr')[0].classList.remove('active')
+                        })
+                    }
+                    // 默认下注10个币
+                team1 = sshi[i].getElementsByClassName('how-pay')[0].innerText.substring(5,9)
+                team2 = sshi[i].getElementsByClassName('how-pay')[1].innerText.substring(5,9)
+                if (Math.abs(team1-team2)>=0.5){
+                    if (team1>team2){winner=1} else {winner=0}
+                    sshi[i].getElementsByClassName('competition-option-content')[winner].style.cssText= 'border: 1px solid #fb72994d;border-left-width: 4px;background: #fb729933;'
                 }
-                else if (parseInt(team1) - parseInt(team2) <= -0.5){
-                    t1c = "font-family:'xx-bin';font-size:27px;color:#f25d8e;letter-spacing:0;line-height:24px;height:24px;width:50px;text-align:center"
-                    t2c = "font-family:'xx-bin';font-size:27px;color:#222222;letter-spacing:0;line-height:24px;height:24px;width:50px;text-align:center"
-                    sshi[0].children[i].getElementsByClassName('competition-option-content clear-fix')[0].style.cssText = 'border: 1px solid #fb7299;border-left-width: 4px'
-                    if (yt == 0){sshi[0].children[i].getElementsByClassName('competition-option-content clear-fix')[0].style.cssText = 'border: 1px solid #fb7299;border-left-width: 4px'}
-                }
-                else{
-                    t1c = "font-family:'xx-bin';font-size:27px;color:#222222;letter-spacing:0;line-height:24px;height:24px;width:50px;text-align:center"
-                    t2c = "font-family:'xx-bin';font-size:27px;color:#222222;letter-spacing:0;line-height:24px;height:24px;width:50px;text-align:center"
-                }
-                team1x = document.createElement('div')
-                team1x.innerText = team1
-                sshi[0].children[i].getElementsByClassName('competition-title')[0].insertBefore(team1x,sshi[0].children[i].getElementsByClassName('competition-title')[0].children[1]);
-                sshi[0].children[i].getElementsByClassName('competition-title')[0].children[1].style.cssText = t1c;
-                team2x = document.createElement('div')
-                team2x.innerText = team2
-                sshi[0].children[i].getElementsByClassName('competition-title')[0].insertBefore(team2x,sshi[0].children[i].getElementsByClassName('competition-title')[0].children[3]);
-                sshi[0].children[i].getElementsByClassName('competition-title')[0].children[3].style.cssText = t2c;
-
+                else{}
             }
         }
-    },100);
+    },2000);
 }
-
