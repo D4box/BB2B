@@ -3,7 +3,7 @@
 
 使竞猜更易于判断和修复了部分bilibili增强脚本的夜间模式在此页面的兼容问题
 
-点击[这里](https://raw.iqiq.io/D4box/BB2B/main/main.user.js)安装
+点击[这里](https://raw.iqiq.io/D4box/BB2B/main/bb2b.user.js)安装
 
 功能列表(已做/想做)
 * [X] 明显显示双方赔率
